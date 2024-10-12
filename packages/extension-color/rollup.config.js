@@ -2,7 +2,6 @@ import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import autoExternal from 'rollup-plugin-auto-external'
-import sizes from 'rollup-plugin-sizes'
 import sourcemaps from 'rollup-plugin-sourcemaps'
 import typescript from 'rollup-plugin-typescript2'
 
@@ -17,19 +16,22 @@ export default {
       file: pkg.umd,
       format: 'umd',
       sourcemap: true,
+      exports: 'named',
     },
     {
       name: pkg.name,
       file: pkg.main,
       format: 'cjs',
+      interop: 'compat',
       sourcemap: true,
-      exports: 'auto',
+      exports: 'named',
     },
     {
       name: pkg.name,
       file: pkg.module,
       format: 'es',
       sourcemap: true,
+      exports: 'named',
     },
   ],
   plugins: [
@@ -43,7 +45,6 @@ export default {
       babelHelpers: 'bundled',
       exclude: '../../node_modules/**',
     }),
-    sizes(),
     typescript({
       tsconfig: '../../tsconfig.json',
       tsconfigOverride: {
